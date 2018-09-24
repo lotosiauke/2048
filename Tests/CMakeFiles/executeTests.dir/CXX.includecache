@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/marcin/CppProjects/2048/Tests/board.h
+vector
+-
+
+/home/marcin/CppProjects/2048/Tests/board_test.cpp
+board.h
+/home/marcin/CppProjects/2048/Tests/board.h
+gtest/gtest.h
+-
+
+/home/marcin/CppProjects/2048/Tests/main_test.cpp
+board_test.cpp
+/home/marcin/CppProjects/2048/Tests/board_test.cpp
+gtest/gtest.h
+-
+
