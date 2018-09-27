@@ -4,12 +4,12 @@ int main()
 {
     Board gameBoard;
     gameBoard.Print();
-    gameBoard.MakeMove(Board::UP);
+    gameBoard.MoveTiles(Board::UP);
     gameBoard.Print();
-    gameBoard.MakeMove(Board::UP);
+    gameBoard.MoveTiles(Board::UP);
     gameBoard.Print();
-    gameBoard.MakeMove(Board::UP);
+    gameBoard.MoveTiles(Board::UP);
     gameBoard.Print();
-    gameBoard.MakeMove(Board::UP);
+    gameBoard.MoveTiles(Board::UP);
     gameBoard.Print();
 }

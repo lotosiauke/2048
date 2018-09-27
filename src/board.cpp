@@ -1,16 +1,34 @@
-#include "board.h"
+#include "../inc/board.h"
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
-#include <string>
 #include <random>
 
 using namespace std;
-Board::Board() : vBoard(4, vector<int>(4,0)) {
+Board::Board() : mainBoard(4, vector<int>(4,0)),
+                 boardCopy(4, vector<int>(4,0)) {
+}
 
+void Board::InitializeGameBoard() {
     PickRandomAndSetValue();
     PickRandomAndSetValue();
 }
+
+void Board::SetTile(int x, int y, int val) {
+    (mainBoard)[x][y] = val;
+}
+
+int Board::GetTile(int x, int y) {
+    return (mainBoard)[x][y];
+}
+
+void Board::CopyBoard(vector <vector<int> > main) {
+    boardCopy.swap(main);
+}
+
+// void Board::UndoMove() {
+//      mainBoard.swap(boardCopy);
+// }
 
 void Board::PickRandomAndSetValue() {
     mt19937 rng;
@@ -21,12 +39,12 @@ void Board::PickRandomAndSetValue() {
     int y = dist4(rng);
     int seed = dist10(rng);
 
-    if ((vBoard)[x][y] == 0) {
+    if ((mainBoard)[x][y] == 0) {
         if (seed < 9){
-            (vBoard)[x][y] = 2;
+            (mainBoard)[x][y] = 2;
         }
         else {
-            (vBoard)[x][y] = 4;
+            (mainBoard)[x][y] = 4;
         }
     }
     else {
@@ -34,46 +52,41 @@ void Board::PickRandomAndSetValue() {
     }
 }
 
-void Board::Print() {
-    for (int x = 0; x < 4; x++) {
-        for (int y = 0; y < 4; y++){
-            cout << (vBoard)[x][y] << " ";
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
 
-void Board::MakeMove(Board::Keys key) {
+void Board::MoveTiles(Board::Keys key) {
     switch(key){
     case UP:
+        CopyBoard(mainBoard);
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++){
                 if (x != 3) {
-                    if ((vBoard)[x][y] == (vBoard)[x+1][y]) {
-                        (vBoard)[x][y] += (vBoard)[x+1][y];
-                        (vBoard)[x+1][y] = 0;
+                    if ((mainBoard)[x][y] == (mainBoard)[x+1][y]) {
+                        (mainBoard)[x][y] += (mainBoard)[x+1][y];
+                        (mainBoard)[x+1][y] = 0;
                     }
-                    else if ((vBoard)[x][y] == 0) {
-                        (vBoard)[x][y] = (vBoard)[x+1][y];
-                        (vBoard)[x+1][y] = 0;
+                    else if ((mainBoard)[x][y] == 0) {
+                        (mainBoard)[x][y] = (mainBoard)[x+1][y];
+                        (mainBoard)[x+1][y] = 0;
                     }
                 }
             }
         }
-        PickRandomAndSetValue();
+        if (mainBoard != boardCopy){
+            CopyBoard(mainBoard);
+            PickRandomAndSetValue();
+        }
         break;
     case DOWN:
         for (int x = 3; x >= 0; x--) {
             for (int y = 0; y < 4; y++){
                 if (x != 0) {
-                    if ((vBoard)[x][y] == (vBoard)[x-1][y]) {
-                        (vBoard)[x][y] += (vBoard)[x-1][y];
-                        (vBoard)[x-1][y] = 0;
+                    if ((mainBoard)[x][y] == (mainBoard)[x-1][y]) {
+                        (mainBoard)[x][y] += (mainBoard)[x-1][y];
+                        (mainBoard)[x-1][y] = 0;
                     }
-                    else if ((vBoard)[x][y] == 0) {
-                        (vBoard)[x][y] = (vBoard)[x-1][y];
-                        (vBoard)[x-1][y] = 0;
+                    else if ((mainBoard)[x][y] == 0) {
+                        (mainBoard)[x][y] = (mainBoard)[x-1][y];
+                        (mainBoard)[x-1][y] = 0;
                     }
                 }
             }
@@ -84,13 +97,13 @@ void Board::MakeMove(Board::Keys key) {
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++){
                 if (y != 3) {
-                    if ((vBoard)[x][y] == (vBoard)[x][y+1]) {
-                        (vBoard)[x][y] += (vBoard)[x][y+1];
-                        (vBoard)[x][y+1] = 0;
+                    if ((mainBoard)[x][y] == (mainBoard)[x][y+1]) {
+                        (mainBoard)[x][y] += (mainBoard)[x][y+1];
+                        (mainBoard)[x][y+1] = 0;
                     }
-                    else if ((vBoard)[x][y] == 0) {
-                        (vBoard)[x][y] = (vBoard)[x][y+1];
-                        (vBoard)[x][y+1] = 0;
+                    else if ((mainBoard)[x][y] == 0) {
+                        (mainBoard)[x][y] = (mainBoard)[x][y+1];
+                        (mainBoard)[x][y+1] = 0;
                     }
                 }
             }
@@ -101,13 +114,13 @@ void Board::MakeMove(Board::Keys key) {
         for (int x = 0; x < 4; x++) {
             for (int y = 3; y >= 0; y--){
                 if (y != 0) {
-                    if ((vBoard)[x][y] == (vBoard)[x][y-1]) {
-                        (vBoard)[x][y] += (vBoard)[x][y-1];
-                        (vBoard)[x][y-1] = 0;
+                    if ((mainBoard)[x][y] == (mainBoard)[x][y-1]) {
+                        (mainBoard)[x][y] += (mainBoard)[x][y-1];
+                        (mainBoard)[x][y-1] = 0;
                     }
-                    else if ((vBoard)[x][y] == 0) {
-                        (vBoard)[x][y] = (vBoard)[x][y-1];
-                        (vBoard)[x][y-1] = 0;
+                    else if ((mainBoard)[x][y] == 0) {
+                        (mainBoard)[x][y] = (mainBoard)[x][y-1];
+                        (mainBoard)[x][y-1] = 0;
                     }
                 }
             }
@@ -119,11 +132,25 @@ void Board::MakeMove(Board::Keys key) {
     }
 }
 
-// void Board::Move(const int& h, const int& v) {
-//     for (int x = 0; x < 4; x++) {
-//         for (int y = 0; y < 4; y++){
-//             if (x == 4)
-//             (vBoard)[x][y] = (vBoard)[x+h][x+y] ;
-//         }
-//     }
-// }
+void Board::Print() {
+    for (int x = 0; x < 4; x++) {
+        for (int y = 0; y < 4; y++){
+            cout << TileString( (mainBoard)[x][y] );
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+
+string Board::TileString(int val) {
+    string str;
+    str += to_string(val);
+    while (str.length() <= 6) {
+        str += " ";
+    }
+    return str;
+}
+
+vector< vector<int> > Board::GetBoard() {
+    return mainBoard;
+}

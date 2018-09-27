@@ -6,13 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/marcin/CppProjects/2048/Tests/board.h
-vector
--
-
 /home/marcin/CppProjects/2048/Tests/board_test.cpp
-board.h
-/home/marcin/CppProjects/2048/Tests/board.h
+../inc/board.h
+/home/marcin/CppProjects/2048/inc/board.h
+../src/board.cpp
+/home/marcin/CppProjects/2048/src/board.cpp
 gtest/gtest.h
 -
 
@@ -20,5 +18,23 @@ gtest/gtest.h
 board_test.cpp
 /home/marcin/CppProjects/2048/Tests/board_test.cpp
 gtest/gtest.h
+-
+
+/home/marcin/CppProjects/2048/inc/board.h
+vector
+-
+string
+-
+
+/home/marcin/CppProjects/2048/src/board.cpp
+../inc/board.h
+/home/marcin/CppProjects/2048/inc/board.h
+stdlib.h
+-
+time.h
+-
+iostream
+-
+random
 -
 
