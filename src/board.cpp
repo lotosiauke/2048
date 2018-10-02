@@ -56,54 +56,177 @@ void Board::FillRandomTile() {
     }
 }
 
-bool Board::MoveLeft(int x, int y) {
+void Board::MoveLeft(int x, int y) {
     if ( GetTile(x, y) == 0 ) {
         int i = y;
-        do {
+        while (i < 3) {
             ++i;
             if(GetTile(x, i) != 0) {
                 SetTile(x, y, GetTile(x, i));
                 SetTile(x, i, 0);
-                return true;
+                return;
             }
         }
-        while (i < 3);
     }
     else if ( GetTile(x, y) != 0 ) {
         int i = y;
-        do {
+        while (i < 3) {
             ++i;
             if ( GetTile(x, y) == GetTile(x, i) ) {
                 SetTile(x, y, GetTile(x, y)*2);
                 SetTile(x, i, 0);
-                return true;
+                return;
             }
             else if ( GetTile(x, i) != 0 && GetTile(x, y) != GetTile(x, i)) {
                 SetTile(x, y+1, GetTile(x, i));
                 if (y+1 != i){
                     SetTile(x, i, 0);
                 }
-                return true;
+                return;
             }
         }
-        while (i < 3);
     }
-    return false;
+    return;
 }
 
+void Board::MoveRight(int x, int y) {
+    if ( GetTile(x, y) == 0 ) {
+        int i = y;
+        while (i > 0) {
+            --i;
+            if(GetTile(x, i) != 0) {
+                SetTile(x, y, GetTile(x, i));
+                SetTile(x, i, 0);
+                return;
+            }
+        }
+    }
+    else if ( GetTile(x, y) != 0 ) {
+        int i = y;
+        while (i > 0) {
+            --i;
+            if ( GetTile(x, y) == GetTile(x, i) ) {
+                SetTile(x, y, GetTile(x, y)*2);
+                SetTile(x, i, 0);
+                return;
+            }
+            else if ( GetTile(x, i) != 0 && GetTile(x, y) != GetTile(x, i)) {
+                SetTile(x, y-1, GetTile(x, i));
+                if (y-1 != i){
+                    SetTile(x, i, 0);
+                }
+                return;
+            }
+        }
+    }
+    return;
+}
+
+void Board::MoveUp(int x, int y) {
+    if ( GetTile(x, y) == 0 ) {
+        int i = x;
+        while (i < 3){
+            ++i;
+            if(GetTile(i, y) != 0) {
+                SetTile(x, y, GetTile(i, y));
+                SetTile(i, y, 0);
+                return;
+            }
+        }
+    }
+    else if ( GetTile(x, y) != 0 ) {
+        int i = x;
+        while (i < 3) {
+            ++i;
+            if ( GetTile(x, y) == GetTile(i, y) ) {
+                SetTile(x, y, GetTile(x, y)*2);
+                SetTile(i, y, 0);
+                return;
+            }
+            else if ( GetTile(i, y) != 0 && GetTile(x, y) != GetTile(i, y)) {
+                SetTile(x+1, y, GetTile(i, y));
+                if (x+1 != i){
+                    SetTile(i, y, 0);
+                }
+                return;
+            }
+        }
+    }
+    return;
+}
+
+void Board::MoveDown(int x, int y) {
+    if ( GetTile(x, y) == 0 ) {
+        int i = x;
+        while (i > 0){
+            --i;
+            if(GetTile(i, y) != 0) {
+                SetTile(x, y, GetTile(i, y));
+                SetTile(i, y, 0);
+                return;
+            }
+        }
+    }
+    else if ( GetTile(x, y) != 0 ) {
+        int i = x;
+        while (i > 0) {
+            --i;
+            if ( GetTile(x, y) == GetTile(i, y) ) {
+                SetTile(x, y, GetTile(x, y)*2);
+                SetTile(i, y, 0);
+                return;
+            }
+            else if ( GetTile(i, y) != 0 && GetTile(x, y) != GetTile(i, y)) {
+                SetTile(x-1, y, GetTile(i, y));
+                if (x-1 != i){
+                    SetTile(i, y, 0);
+                }
+                return;
+            }
+        }
+    }
+    return;
+}
 
 void Board::Move(Board::Keys key) {
     switch(key) {
     case LEFT:
-        bool hasMoved = false;
+        CopyBoard(board);
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
-                if (MoveLeft(x, y)) {
-                    hasMoved = true;
-                }
+                MoveLeft(x, y);
             }
         }
-        if (hasMoved) FillRandomTile();
+        if (boardCopy != board) FillRandomTile();
+        break;
+    case RIGHT:
+        CopyBoard(board);
+        for (int x = 0; x < 4; x++) {
+            for (int y = 3; y >= 0; y--) {
+                MoveRight(x, y);
+            }
+        }
+        if (boardCopy != board) FillRandomTile();
+        break;
+    case UP:
+        CopyBoard(board);
+        for (int x = 0; x < 4; x++) {
+            for (int y = 0; y < 4; y++) {
+                MoveUp(x, y);
+            }
+        }
+        if (boardCopy != board) FillRandomTile();
+        break;
+    case DOWN:
+        CopyBoard(board);
+        for (int x = 3; x >= 0; x--) {
+            for (int y = 0; y < 4; y++) {
+                MoveDown(x, y);
+            }
+        }
+        if (boardCopy != board) FillRandomTile();
+        break;
+    default:
         break;
     }
 }

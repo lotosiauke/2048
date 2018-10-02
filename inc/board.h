@@ -20,7 +20,10 @@ private:
     std::vector< std::vector<int> > board;
     std::vector< std::vector<int> > boardCopy;
 
-    bool MoveLeft(int x, int y);
+    void MoveLeft(int x, int y);
+    void MoveRight(int x, int y);
+    void MoveUp(int x, int y);
+    void MoveDown(int x, int y);
     void CopyBoard(std::vector< std::vector<int> > main);
     std::string TileString(int val);
     void FillRandomTile();
