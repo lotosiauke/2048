@@ -51,70 +51,13 @@ TEST(Board, TileSetterWorks) {
     EXPECT_EQ(3, count);
 }
 
-TEST(Board, TilesMoveUpAndAddRandomTile) {
+TEST(Board, MoveLeft_MovesToBorderAndAddTile) {
     Board b;
     int count = 0;
 
     b.SetTile(0, 1, 2);
-    b.SetTile(1, 0, 2);
-    b.SetTile(3, 2, 16);
-    b.MoveTiles(Board::UP);
+    b.Move(Board::LEFT);
 
-    for (const auto vec : b.GetBoard()) {
-        for (const auto &val : vec) {
-            if (val != 0) count++;
-        }
-    }
-
-    EXPECT_EQ(2, b.GetTile(0, 1));
-    EXPECT_EQ(2, b.GetTile(0, 0));
-    EXPECT_EQ(16, b.GetTile(0, 2));
-    EXPECT_EQ(4, count);
-
-}
-
-TEST(Board, TilesDontMoveUpAndDontAddRandomTile) {
-    Board b;
-    int count = 0;
-
-    b.SetTile(0, 0, 4);
-    b.SetTile(0, 2, 2);
-    b.MoveTiles(Board::UP);
-
-    for (const auto vec : b.GetBoard()) {
-        for (const auto &val : vec) {
-            if (val != 0) count++;
-        }
-    }
-
-    EXPECT_EQ(4, b.GetTile(0, 0));
-    EXPECT_EQ(2, b.GetTile(0, 2));
-    EXPECT_EQ(2, count);
-}
-
-TEST(Board, TilesMoveDownAndMerge) {
-    Board b;
-    int count = 0;
-
-    b.SetTile(0, 2, 2);
-    b.SetTile(1, 2, 2);
-    b.SetTile(2, 2, 4);
-    b.SetTile(2, 3, 16);
-    b.SetTile(3, 2, 4);
-    b.SetTile(3, 3, 16);
-    b.SetTile(3, 1, 32);
-    b.MoveTiles(Board::DOWN);
-
-    for (const auto vec : b.GetBoard()) {
-        for (const auto &val : vec) {
-            if (val != 0) count++;
-        }
-    }
-
-    EXPECT_EQ(32, b.GetTile(3, 1));
-    EXPECT_EQ(32, b.GetTile(3, 3));
-    EXPECT_EQ(8, b.GetTile(3, 2));
-    EXPECT_EQ(4, b.GetTile(2, 2));
-    EXPECT_EQ(5, count);
-
+    EXPECT_EQ(2, b.GetTile(0,0));
+    EXPECT_EQ(0, b.GetTile(0,1));
 }

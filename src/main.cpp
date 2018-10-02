@@ -3,13 +3,22 @@
 int main()
 {
     Board gameBoard;
+    gameBoard.InitializeGameBoard();
     gameBoard.Print();
-    gameBoard.MoveTiles(Board::UP);
+    gameBoard.Move(Board::LEFT);
     gameBoard.Print();
-    gameBoard.MoveTiles(Board::UP);
+    gameBoard.Move(Board::LEFT);
     gameBoard.Print();
-    gameBoard.MoveTiles(Board::UP);
+    gameBoard.Move(Board::LEFT);
     gameBoard.Print();
-    gameBoard.MoveTiles(Board::UP);
+    gameBoard.Move(Board::LEFT);
+    gameBoard.Print();
+    gameBoard.Move(Board::LEFT);
+    gameBoard.Print();
+    gameBoard.Move(Board::LEFT);
+    gameBoard.Print();
+    gameBoard.Move(Board::LEFT);
+    gameBoard.Print();
+    gameBoard.Move(Board::LEFT);
     gameBoard.Print();
 }
